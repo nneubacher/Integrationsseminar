@@ -1,0 +1,1 @@
+Integrationsseminar zu ausgewählten Themen der Wirtschaftsinformatik
