@@ -25,7 +25,7 @@ def compute_hog_features(region, k):
 
 def labeled_user_image(image, k=0):
     cleaned = preprocess_image(image)
-    label, n = measure.label(cleaned, neighbors=8, background=255, return_num=True, connectivity=2)
+    label, n = measure.label(cleaned, background=255, return_num=True, connectivity=2)
     print("numbers of numbers on image:", n)
     
     regions = extract_regions(label)

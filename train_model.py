@@ -9,6 +9,8 @@ from joblib import dump, load
 from pull_digit import labeled_user_image
 import cv2
 
+model_path = 'digit_knn_model.sav'
+
 def fetch_mnist_data():
     mnist = fetch_openml('mnist_784', version=1)
     x = np.array(mnist.data, 'int16')
@@ -51,7 +53,7 @@ def read_image(rects, nums):
     max_x = np.max(xx)
     max_y = np.max(yy)
 
-    digits = np.zeros((max_x + 5, max_y + 5), np.object)
+    digits = np.zeros((max_x + 5, max_y + 5), object)
 
     return digits
 
@@ -76,7 +78,7 @@ def new(image, padd):
                                  facecolor='none')
 
         ax.add_patch(rect)
-        ex = knn_predict(nums[n])
+        ex = knn_predict(nums[n], model_path)
 
         digits[rects[n][0][0]][rects[n][0][1]] = [ex]
         ax.text(rects[n][0][0] + 3, rects[n][0]
@@ -104,7 +106,7 @@ def main():
     x, y = fetch_mnist_data()
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
     
-    model_path = 'digit_knn_model.joblib'
+    
     train_model(x_train, y_train, model_path)
     knn_score(x_test, y_test, model_path)
 
