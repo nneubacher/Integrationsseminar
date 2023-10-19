@@ -96,7 +96,7 @@ def view(image, pad):
     for n in range(len(ph)):
         plt.subplot(8, 11, n + 1)
         plt.imshow(ph[n], "gray")
-        ex = knn_predict(nums[n])
+        ex = knn_predict(nums[n], model_path)
         title_obj = plt.title(str(ex))
         plt.setp(title_obj, color='r')
         plt.axis("off")
