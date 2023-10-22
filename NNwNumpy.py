@@ -81,7 +81,19 @@ def gradient_descent(X, Y, alpha, iterations):
             print("Iteration:", i, "Accuracy:", get_accuracy(predictions, Y))
     return W1, b1, W2, b2
 
-W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 0.10, 100)
+def preprocess_image(image_path):
+
+    img = Image.open(image_path)
+    
+    img = img.convert('L').resize((28, 28))
+    
+    img_array = np.array(img) / 255.0
+    
+    img_array = img_array.reshape(784, 1)
+    
+    return img_array
+
+W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
 
 def test_prediction(index, W1, b1, W2, b2):
     current_image = X_train[:, index, None]
@@ -95,6 +107,26 @@ def test_prediction(index, W1, b1, W2, b2):
 
 for i in range(4):
     test_prediction(i, W1, b1, W2, b2)
+    
+def predict_image(image_path, W1, b1, W2, b2):
+    
+    image_path = 'test_images/d1.jpg' 
+    # Preprocess the image
+    image = preprocess_image(image_path)
+    
+    # Predict using the model
+    prediction = get_predictions(forward_prop(W1, b1, W2, b2, image)[-1])[0]
+    return prediction
+
+# Test the function
+image_path = "path_to_your_image.png"
+predicted_label = predict_image(image_path, W1, b1, W2, b2)
+print("Predicted Label:", predicted_label)
+
+# Display the input image
+img = Image.open(image_path)
+plt.imshow(img, cmap='gray')
+plt.show()
 
 def preprocess_image(image_path):
 
