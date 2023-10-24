@@ -128,5 +128,36 @@ img = Image.open(image_path)
 plt.imshow(img, cmap='gray')
 plt.show()
 
+def preprocess_image(image_path):
+
+    img = Image.open(image_path)
+    
+    img = img.convert('L').resize((28, 28))
+    
+    img_array = np.array(img) / 255.0
+    
+    img_array = img_array.reshape(784, 1)
+    
+    return img_array
+
+def predict_image(image_path, W1, b1, W2, b2):
+    
+    # Preprocess the image
+    image = preprocess_image(image_path)
+    
+    # Predict using the model
+    prediction = get_predictions(forward_prop(W1, b1, W2, b2, image)[-1])[0]
+    return prediction
+
+# Test the function
+image_path = 'test_images/d1.jpg' 
+predicted_label = predict_image(image_path, W1, b1, W2, b2)
+print("Predicted Label:", predicted_label)
+
+# Display the input image
+img = Image.open(image_path)
+plt.imshow(img, cmap='gray')
+plt.show()
+
 dev_predictions = get_predictions(forward_prop(W1, b1, W2, b2, X_dev)[-1])
 print("Development Set Accuracy:", get_accuracy(dev_predictions, Y_dev))
